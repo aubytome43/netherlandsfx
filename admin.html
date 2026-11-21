@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — NetherlandsFX Forex Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #05070a;
+      --bg-sidebar: #080b11;
+      --bg-card: #0c1018;
+      --bg-input: #06090f;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.14);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --gold: #eab308;
+      --gold-bright: #facc15;
+      --gold-dim: rgba(234, 179, 8, 0.12);
+      --emerald: #10b981;
+      --emerald-dim: rgba(16, 185, 129, 0.12);
+      --amber: #f59e0b;
+      --amber-dim: rgba(245, 158, 11, 0.12);
+      --rose: #f43f5e;
+      --rose-dim: rgba(244, 63, 94, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* Login Gate */
+    .login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 400px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      border-radius: 14px;
+      padding: 28px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .brand-name { font-weight: 700; font-size: 16px; }
+    .brand-name span { color: var(--gold); }
+    .brand-sub { font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-secondary); display: block; }
+
+    /* App Layout */
+    .app-shell {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .app-shell.authenticated {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+    }
+
+    aside.sidebar {
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-subtle);
+      padding: 22px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .nav-item {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 1px solid transparent;
+      color: #cbd5e1;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .nav-item:hover { background: rgba(255,255,255,0.04); }
+    .nav-item.active {
+      background: var(--gold-dim);
+      border-color: rgba(234, 179, 8, 0.25);
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    main.workspace {
+      padding: 28px clamp(20px, 3vw, 40px);
+      overflow-y: auto;
+    }
+
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .topbar h1 { font-size: 22px; font-weight: 800; }
+    .topbar p { font-size: 13px; color: var(--text-secondary); }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #090c10;
+      font-weight: 600;
+      font-size: 13px;
+      padding: 9px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--gold);
+      cursor: pointer;
+    }
+
+    .btn-gold:hover { background: var(--gold-bright); }
+
+    .btn-dark {
+      background: var(--bg-card);
+      color: #e2e8f0;
+      font-weight: 500;
+      font-size: 13px;
+      padding: 8px 13px;
+      border-radius: 8px;
+      border: 1px solid var(--border-strong);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+
+    .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 6px; }
+    .stat-val { font-size: 26px; font-weight: 800; }
+    .stat-val.gold { color: var(--gold); }
+
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 22px;
+      margin-bottom: 24px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+
+    .panel-head h2 { font-size: 16px; font-weight: 700; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+    }
+
+    .pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .pill-paid { background: var(--emerald-dim); color: var(--emerald); }
+    .pill-pending { background: var(--amber-dim); color: var(--amber); }
+
+    .action-btn {
+      font-size: 12px;
+      padding: 5px 9px;
+      border-radius: 6px;
+      border: 1px solid var(--border-strong);
+      background: #111622;
+      color: #e2e8f0;
+      cursor: pointer;
+      margin-right: 4px;
+    }
+
+    .action-btn.approve { border-color: rgba(16,185,129,0.4); color: var(--emerald); }
+    .action-btn.delete { border-color: rgba(244,63,94,0.35); color: var(--rose); }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    label { display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 5px; }
+    input, select {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      padding: 9px 11px;
+      color: var(--text-primary);
+      font-size: 13px;
+    }
+
+    .tab-section { display: none; }
+    .tab-section.active { display: block; }
+
+    @media (max-width: 900px) {
+      .app-shell.authenticated { grid-template-columns: 1fr; }
+      .stats-grid, .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Admin Login Gate -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-box">
+      <div class="brand">
+        <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+          <polygon points="20,2 36,11 36,29 20,38 4,29 4,11" stroke="#EAB308" stroke-width="1.6" fill="#0B1018"/>
+          <rect x="10.5" y="16" width="5" height="7" rx="0.8" fill="#EAB308"/>
+          <rect x="17.5" y="13" width="5" height="9" rx="0.8" fill="#0B1018" stroke="#EAB308" stroke-width="1.3"/>
+          <rect x="24.5" y="17" width="5" height="6" rx="0.8" fill="#EAB308"/>
+        </svg>
+        <div>
+          <div class="brand-name">Netherlands<span>FX</span></div>
+          <span class="brand-sub">ADMIN PORTAL</span>
+        </div>
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)">
+        <div style="margin-bottom: 14px;">
+          <label for="adminPass">Admin Passcode</label>
+          <input id="adminPass" type="password" placeholder="Enter passcode (admin2026)" required />
+        </div>
+        <button type="submit" class="btn-gold" style="width:100%;">Sign In to Dashboard</button>
+        <p id="loginError" style="color:#f43f5e; font-size:12px; margin-top:10px; display:none;">Incorrect passcode. Try <strong>admin2026</strong>.</p>
+      </form>
+      <div style="margin-top:16px; text-align:center;">
+        <a href="index.html" style="font-size:12.5px; color:#94a3b8;">← Back to Academy Website</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Workspace -->
+  <div id="appShell" class="app-shell">
+    <aside class="sidebar">
+      <div>
+        <div class="brand" style="padding: 0 8px 16px; border-bottom: 1px solid var(--border-subtle);">
+          <svg width="30" height="30" viewBox="0 0 40 40" fill="none">
+            <polygon points="20,2 36,11 36,29 20,38 4,29 4,11" stroke="#EAB308" stroke-width="1.6" fill="#0B1018"/>
+            <rect x="10.5" y="16" width="5" height="7" rx="0.8" fill="#EAB308"/>
+            <rect x="17.5" y="13" width="5" height="9" rx="0.8" fill="#0B1018" stroke="#EAB308" stroke-width="1.3"/>
+            <rect x="24.5" y="17" width="5" height="6" rx="0.8" fill="#EAB308"/>
+          </svg>
+          <div>
+            <div class="brand-name">Netherlands<span>FX</span></div>
+            <span class="brand-sub">STAFF ADMIN</span>
+          </div>
+        </div>
+
+        <nav style="margin-top: 16px;">
+          <button class="nav-item active" onclick="switchTab('enrolments', this)">Enrolments & Students</button>
+          <button class="nav-item" onclick="switchTab('courses', this)">Courses & Fees</button>
+          <button class="nav-item" onclick="switchTab('schedule', this)">Classes & Workshops</button>
+          <button class="nav-item" onclick="switchTab('settings', this)">Academy Contact Info</button>
+        </nav>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <a href="index.html" class="btn-dark" style="justify-content:center;">View Live Site ↗</a>
+        <button class="btn-dark" style="justify-content:center; color:#f43f5e;" onclick="logoutAdmin()">Log out</button>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <div class="topbar">
+        <div>
+          <h1>NetherlandsFX Academy Control</h1>
+          <p>Manage student enrolments, course fees, workshop seats, and contact details.</p>
+        </div>
+        <button class="btn-gold" onclick="addSampleStudent()">+ Add Manual Enrolment</button>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Students</div>
+          <div id="statTotal" class="stat-val">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Confirmed / Paid</div>
+          <div id="statPaid" class="stat-val gold">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Pending Review</div>
+          <div id="statPending" class="stat-val">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active Courses</div>
+          <div id="statCourses" class="stat-val">06</div>
+        </div>
+      </div>
+
+      <!-- Tab 1: Enrolments -->
+      <section id="tab-enrolments" class="tab-section active">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Student Enrolments & Workshop Registrations</h2>
+          </div>
+          <div style="overflow-x:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Email</th>
+                  <th>Course / Workshop</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="enrolmentsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 2: Courses -->
+      <section id="tab-courses" class="tab-section">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Manage Courses & Indicative Fees</h2>
+          </div>
+          <form onsubmit="addCourse(event)" class="form-grid">
+            <div>
+              <label>Course Title</label>
+              <input id="cTitle" type="text" placeholder="e.g. Fundamental Analysis" required />
+            </div>
+            <div>
+              <label>Level</label>
+              <select id="cLevel">
+                <option value="BEGINNER">BEGINNER</option>
+                <option value="INTERMEDIATE">INTERMEDIATE</option>
+                <option value="ADVANCED">ADVANCED</option>
+              </select>
+            </div>
+            <div>
+              <label>Fee (USD)</label>
+              <input id="cPrice" type="number" placeholder="140" required />
+            </div>
+            <div style="grid-column: 1 / -1;">
+              <button type="submit" class="btn-gold">Save Course</button>
+            </div>
+          </form>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Course</th>
+                <th>Level</th>
+                <th>Fee</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="coursesBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Tab 3: Workshops -->
+      <section id="tab-schedule" class="tab-section">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Upcoming Classes & Workshops</h2>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Session</th>
+                <th>Type</th>
+                <th>Date & Time</th>
+                <th>Seats Left</th>
+                <th>Adjust Seats</th>
+              </tr>
+            </thead>
+            <tbody id="workshopsBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Tab 4: Settings -->
+      <section id="tab-settings" class="tab-section">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Academy Contact & Venue Details</h2>
+          </div>
+          <form onsubmit="saveSettings(event)">
+            <div class="form-grid">
+              <div>
+                <label>Town / Physical Address</label>
+                <input id="setAddress" type="text" value="Bulawayo / Harare — Zimbabwe" />
+              </div>
+              <div>
+                <label>Phone / WhatsApp</label>
+                <input id="setPhone" type="text" value="+263 77 000 0000" />
+              </div>
+              <div>
+                <label>Admissions Email</label>
+                <input id="setEmail" type="email" value="admissions@netherlandsfx.co.zw" />
+              </div>
+            </div>
+            <button type="submit" class="btn-gold">Save Academy Details</button>
+            <span id="settingsSaved" style="display:none; color:#10b981; font-size:12.5px; margin-left:12px;">Saved!</span>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'nfx_enrolments';
+    const COURSES_KEY = 'nfx_courses';
+    const WORKSHOPS_KEY = 'nfx_workshops';
+
+    function getEnrolments() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) return JSON.parse(saved);
+      const initial = [
+        { id: 1, name: 'Tinashe Moyo', email: 'tinashe.m@example.com', course: 'Forex Trading for Beginners ($120)', date: '2026-11-20', status: 'Paid' },
+        { id: 2, name: 'Rumbidzai Ndlovu', email: 'rumbi.n@example.com', course: 'Gold (XAUUSD) risk workshop — Sat 21 Nov 2026', date: '2026-11-21', status: 'Pending' }
+      ];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
+      return initial;
+    }
+
+    function getCourses() {
+      const saved = localStorage.getItem(COURSES_KEY);
+      if (saved) return JSON.parse(saved);
+      const initial = [
+        { id: 1, title: 'Forex Trading for Beginners', level: 'BEGINNER', price: 120 },
+        { id: 2, title: 'Technical Analysis', level: 'INTERMEDIATE', price: 150 },
+        { id: 3, title: 'Risk Management', level: 'INTERMEDIATE', price: 100 }
+      ];
+      localStorage.setItem(COURSES_KEY, JSON.stringify(initial));
+      return initial;
+    }
+
+    function getWorkshops() {
+      const saved = localStorage.getItem(WORKSHOPS_KEY);
+      if (saved) return JSON.parse(saved);
+      const initial = [
+        { id: 1, title: 'Gold (XAUUSD) risk workshop', type: 'WORKSHOP', date: 'Sat 21 Nov 2026 · 10:00', seats: 15 },
+        { id: 2, title: 'Technical analysis open seminar', type: 'SEMINAR', date: 'Sat 5 Dec 2026 · 09:30', seats: 50 }
+      ];
+      localStorage.setItem(WORKSHOPS_KEY, JSON.stringify(initial));
+      return initial;
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const pass = document.getElementById('adminPass').value;
+      if (pass === 'admin2026') {
+        sessionStorage.setItem('nfx_admin_auth', '1');
+        showDashboard();
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('nfx_admin_auth');
+      location.reload();
+    }
+
+    function showDashboard() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('appShell').classList.add('authenticated');
+      renderAll();
+    }
+
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function renderAll() {
+      const enrolments = getEnrolments();
+      const courses = getCourses();
+      const workshops = getWorkshops();
+
+      document.getElementById('statTotal').textContent = enrolments.length;
+      document.getElementById('statPaid').textContent = enrolments.filter(e => e.status === 'Paid').length;
+      document.getElementById('statPending').textContent = enrolments.filter(e => e.status === 'Pending').length;
+      document.getElementById('statCourses').textContent = String(courses.length).padStart(2, '0');
+
+      document.getElementById('enrolmentsBody').innerHTML = enrolments.map(item => `
+        <tr>
+          <td><strong>${item.name}</strong></td>
+          <td>${item.email}</td>
+          <td>${item.course}</td>
+          <td>${item.date}</td>
+          <td><span class="pill ${item.status === 'Paid' ? 'pill-paid' : 'pill-pending'}">${item.status}</span></td>
+          <td>
+            ${item.status !== 'Paid' ? `<button class="action-btn approve" onclick="markPaid(${item.id})">Confirm Paid</button>` : ''}
+            <button class="action-btn delete" onclick="deleteEnrolment(${item.id})">Remove</button>
+          </td>
+        </tr>
+      `).join('');
+
+      document.getElementById('coursesBody').innerHTML = courses.map(c => `
+        <tr>
+          <td><strong>${c.title}</strong></td>
+          <td>${c.level}</td>
+          <td>$${c.price}</td>
+          <td><button class="action-btn delete" onclick="deleteCourse(${c.id})">Delete</button></td>
+        </tr>
+      `).join('');
+
+      document.getElementById('workshopsBody').innerHTML = workshops.map(w => `
+        <tr>
+          <td><strong>${w.title}</strong></td>
+          <td>${w.type}</td>
+          <td>${w.date}</td>
+          <td>${w.seats} seats</td>
+          <td>
+            <button class="action-btn" onclick="changeSeats(${w.id}, -1)">-1 Seat</button>
+            <button class="action-btn" onclick="changeSeats(${w.id}, 1)">+1 Seat</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function markPaid(id) {
+      const list = getEnrolments().map(item => item.id === id ? { ...item, status: 'Paid' } : item);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      renderAll();
+    }
+
+    function deleteEnrolment(id) {
+      const list = getEnrolments().filter(item => item.id !== id);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      renderAll();
+    }
+
+    function addSampleStudent() {
+      const name = prompt('Student Full Name:');
+      if (!name) return;
+      const email = prompt('Student Email:', 'student@example.com') || 'student@example.com';
+      const list = getEnrolments();
+      list.unshift({
+        id: Date.now(),
+        name,
+        email,
+        course: 'Forex Trading for Beginners ($120)',
+        date: new Date().toISOString().slice(0, 10),
+        status: 'Pending'
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      renderAll();
+    }
+
+    function addCourse(e) {
+      e.preventDefault();
+      const list = getCourses();
+      list.push({
+        id: Date.now(),
+        title: document.getElementById('cTitle').value.trim(),
+        level: document.getElementById('cLevel').value,
+        price: Number(document.getElementById('cPrice').value)
+      });
+      localStorage.setItem(COURSES_KEY, JSON.stringify(list));
+      e.target.reset();
+      renderAll();
+    }
+
+    function deleteCourse(id) {
+      const list = getCourses().filter(c => c.id !== id);
+      localStorage.setItem(COURSES_KEY, JSON.stringify(list));
+      renderAll();
+    }
+
+    function changeSeats(id, delta) {
+      const list = getWorkshops().map(w => w.id === id ? { ...w, seats: Math.max(0, w.seats + delta) } : w);
+      localStorage.setItem(WORKSHOPS_KEY, JSON.stringify(list));
+      renderAll();
+    }
+
+    function saveSettings(e) {
+      e.preventDefault();
+      localStorage.setItem('nfx_settings', JSON.stringify({
+        address: document.getElementById('setAddress').value,
+        phone: document.getElementById('setPhone').value,
+        email: document.getElementById('setEmail').value
+      }));
+      const msg = document.getElementById('settingsSaved');
+      msg.style.display = 'inline';
+      setTimeout(() => msg.style.display = 'none', 2500);
+    }
+
+    if (sessionStorage.getItem('nfx_admin_auth') === '1') {
+      showDashboard();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NetherlandsFX — Forex Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    
+    :root {
+      --bg-page: #05070a;
+      --bg-surface: #0a0d14;
+      --bg-card: #0c1018;
+      --bg-card-hover: #101520;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.14);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --gold: #eab308;
+      --gold-bright: #facc15;
+      --gold-dim: rgba(234, 179, 8, 0.12);
+      --gold-border: rgba(234, 179, 8, 0.28);
+      --emerald: #10b981;
+      --emerald-dim: rgba(16, 185, 129, 0.12);
+      --blue-badge: #38bdf8;
+      --blue-dim: rgba(56, 189, 248, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input, select {
+      font-family: inherit;
+    }
+
+    /* Full-screen responsive container aligned with navbar edges */
+    .container {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 4vw, 56px);
+    }
+
+    /* Top Risk Warning Bar */
+    .risk-topbar {
+      background: #070a10;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 8px 16px;
+      text-align: center;
+      font-size: 12px;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .risk-topbar svg {
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* Sticky Navbar */
+    header.navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(5, 7, 10, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-inner {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 14px clamp(20px, 4vw, 56px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .brand-name {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-name span.fx {
+      color: var(--gold);
+    }
+
+    .brand-sub {
+      font-size: 9.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      font-size: 13.5px;
+      color: #cbd5e1;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--gold);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-login {
+      background: transparent;
+      border: none;
+      color: #cbd5e1;
+      font-size: 13.5px;
+      cursor: pointer;
+      padding: 6px 10px;
+    }
+
+    .btn-login:hover {
+      color: var(--text-primary);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #090c10;
+      font-weight: 600;
+      font-size: 13.5px;
+      padding: 9px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--gold);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: background 0.18s ease, transform 0.15s ease;
+    }
+
+    .btn-gold:hover {
+      background: var(--gold-bright);
+    }
+
+    .btn-dark {
+      background: #0c1018;
+      color: #e2e8f0;
+      font-weight: 500;
+      font-size: 13.5px;
+      padding: 9px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-strong);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .btn-dark:hover {
+      background: #131926;
+      border-color: rgba(255, 255, 255, 0.24);
+    }
+
+    .btn-ghost-link {
+      background: transparent;
+      border: none;
+      color: #cbd5e1;
+      font-size: 13.5px;
+      cursor: pointer;
+      padding: 9px 12px;
+    }
+
+    .btn-ghost-link:hover {
+      color: var(--text-primary);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: #0c1018;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      border-radius: 8px;
+      padding: 7px 10px;
+      cursor: pointer;
+    }
+
+    /* Full-Viewport Hero Section */
+    .hero {
+      position: relative;
+      min-height: calc(100vh - 96px);
+      display: flex;
+      align-items: center;
+      padding: 48px 0 56px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-subtle);
+      background:
+        radial-gradient(circle at 75% 45%, rgba(234, 179, 8, 0.06), transparent 45%),
+        linear-gradient(180deg, #060911 0%, #05070a 100%);
+    }
+
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.1));
+      pointer-events: none;
+    }
+
+    .hero-candlesticks {
+      position: absolute;
+      right: 0;
+      top: 10%;
+      width: 58%;
+      height: 85%;
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+    }
+
+    .eyebrow-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      background: rgba(234, 179, 8, 0.07);
+      border: 1px solid rgba(234, 179, 8, 0.22);
+      color: #eab308;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5.2vw, 4rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .accent-gold {
+      color: var(--gold);
+    }
+
+    .hero p.lead {
+      font-size: 16.5px;
+      color: #9ca3af;
+      max-width: 600px;
+      margin-bottom: 30px;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 52px;
+    }
+
+    .hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 48px;
+      padding-top: 8px;
+    }
+
+    .metric-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 6px;
+    }
+
+    .metric-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .metric-value svg {
+      color: var(--gold);
+    }
+
+    /* Section Styling */
+    section.band {
+      padding: 84px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .section-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .section-heading {
+      font-size: clamp(1.85rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .section-heading .gold {
+      color: var(--gold);
+    }
+
+    /* About / Academy Split */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    .about-left p {
+      color: #9ca3af;
+      font-size: 15.5px;
+      margin-top: 18px;
+      margin-bottom: 26px;
+      max-width: 580px;
+    }
+
+    .about-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .feature-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .feature-row-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: border-color 0.2s ease;
+    }
+
+    .feature-row-card:hover {
+      border-color: var(--border-strong);
+    }
+
+    .icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(234, 179, 8, 0.08);
+      border: 1px solid rgba(234, 179, 8, 0.22);
+      color: var(--gold);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .feature-row-card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .feature-row-card p {
+      font-size: 13.5px;
+      color: #94a3b8;
+    }
+
+    /* Featured Courses */
+    .section-header-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .course-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .course-card:hover {
+      border-color: var(--gold-border);
+      transform: translateY(-2px);
+    }
+
+    .course-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .badge-level {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .badge-beginner {
+      background: var(--emerald-dim);
+      color: var(--emerald);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+    }
+
+    .badge-intermediate {
+      background: var(--blue-dim);
+      color: var(--blue-badge);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+    }
+
+    .course-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: #e2e8f0;
+    }
+
+    .course-card h3 {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .course-desc {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 24px;
+    }
+
+    .course-meta {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12.5px;
+      color: #94a3b8;
+      margin-bottom: 18px;
+    }
+
+    .course-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .course-link {
+      color: var(--gold);
+      font-size: 13.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .course-link:hover {
+      color: var(--gold-bright);
+    }
+
+    .course-footnote {
+      font-size: 11.5px;
+      color: #64748b;
+      line-height: 1.45;
+    }
+
+    /* Why Learn With Us */
+    .why-header {
+      max-width: 680px;
+      margin-bottom: 40px;
+    }
+
+    .why-header p {
+      margin-top: 14px;
+      color: #94a3b8;
+      font-size: 15px;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .pillar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 26px;
+    }
+
+    .pillar-card h3 {
+      font-size: 15.5px;
+      font-weight: 700;
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+
+    .pillar-card p {
+      font-size: 13.5px;
+      color: #94a3b8;
+    }
+
+    /* Learning Journey */
+    .journey-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+      margin-bottom: 36px;
+    }
+
+    .journey-top p {
+      max-width: 480px;
+      color: #94a3b8;
+      font-size: 14.5px;
+    }
+
+    .journey-list {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .journey-item {
+      display: grid;
+      grid-template-columns: 72px 1.2fr 0.8fr;
+      align-items: center;
+      gap: 24px;
+      padding: 24px 30px;
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background 0.18s ease;
+    }
+
+    .journey-item:last-child {
+      border-bottom: none;
+    }
+
+    .journey-item:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .step-num {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .journey-main h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .journey-main p {
+      font-size: 13.5px;
+      color: #94a3b8;
+    }
+
+    .journey-track {
+      text-align: right;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #64748b;
+    }
+
+    /* Upcoming Classes & Workshops */
+    .workshops-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .workshop-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .workshop-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .workshop-type {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .seats-pill {
+      font-size: 12px;
+      color: #cbd5e1;
+      background: #131824;
+      border: 1px solid var(--border-subtle);
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .workshop-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .workshop-date {
+      font-size: 13.5px;
+      color: #94a3b8;
+      margin-bottom: 18px;
+    }
+
+    .workshop-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 22px;
+    }
+
+    .workshop-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-full-dark {
+      width: 100%;
+      justify-content: center;
+      padding: 11px 16px;
+    }
+
+    /* Footer */
+    footer.site-footer {
+      background: #05070a;
+      padding: 68px 0 36px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.8fr 0.9fr 1.1fr;
+      gap: 48px;
+      margin-bottom: 36px;
+    }
+
+    .footer-brand-desc {
+      font-size: 13.5px;
+      color: #94a3b8;
+      margin-top: 14px;
+      max-width: 320px;
+    }
+
+    .footer-col h4 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 13.5px;
+      color: #cbd5e1;
+    }
+
+    .footer-links a:hover,
+    .footer-links button:hover {
+      color: var(--gold);
+    }
+
+    .footer-links button {
+      background: none;
+      border: none;
+      color: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      text-align: left;
+      padding: 0;
+    }
+
+    .contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .contact-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .contact-list svg {
+      color: var(--gold);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .disclaimer-box {
+      background: #090c12;
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 18px 22px;
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .disclaimer-box strong {
+      color: #cbd5e1;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 460px;
+      background: #0b0f17;
+      border: 1px solid var(--border-strong);
+      border-radius: 14px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: #131926;
+      border: 1px solid var(--border-subtle);
+      color: #cbd5e1;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12.5px;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      background: #06090f;
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: var(--text-primary);
+      font-size: 13.5px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .toast-msg {
+      display: none;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+      font-size: 12.5px;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .nav-links,
+      .nav-actions {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: inline-flex;
+      }
+
+      .about-grid,
+      .courses-grid,
+      .pillars-grid,
+      .workshops-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .journey-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .journey-item {
+        grid-template-columns: 52px 1fr;
+      }
+
+      .journey-track {
+        grid-column: 2;
+        text-align: left;
+      }
+    }
+
+    .mobile-drawer {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px 24px 20px;
+      border-top: 1px solid var(--border-subtle);
+      background: #070a10;
+    }
+
+    .mobile-drawer.open {
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Risk Warning -->
+  <div class="risk-topbar">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+      <line x1="12" y1="9" x2="12" y2="13"/>
+      <line x1="12" y1="17" x2="12.01" y2="17"/>
+    </svg>
+    <span><strong>Risk warning:</strong> Forex and leveraged trading involve substantial risk and can result in the loss of all capital traded. Education does not guarantee profits.</span>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="brand-link">
+        <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="NetherlandsFX Logo">
+          <polygon points="20,2 36,11 36,29 20,38 4,29 4,11" stroke="#EAB308" stroke-width="1.6" fill="#0B1018"/>
+          <line x1="13" y1="13" x2="13" y2="27" stroke="#EAB308" stroke-width="1.4"/>
+          <rect x="10.5" y="16" width="5" height="7" rx="0.8" fill="#EAB308"/>
+          <line x1="20" y1="10" x2="20" y2="29" stroke="#EAB308" stroke-width="1.4"/>
+          <rect x="17.5" y="13" width="5" height="9" rx="0.8" fill="#0B1018" stroke="#EAB308" stroke-width="1.3"/>
+          <line x1="27" y1="14" x2="27" y2="26" stroke="#EAB308" stroke-width="1.4"/>
+          <rect x="24.5" y="17" width="5" height="6" rx="0.8" fill="#EAB308"/>
+        </svg>
+        <div class="brand-text">
+          <span class="brand-name">Netherlands<span class="fx">FX</span></span>
+          <span class="brand-sub">FOREX ACADEMY</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary Navigation">
+        <a href="#home" class="active">Home</a>
+        <a href="#about">About</a>
+        <a href="#courses">Courses</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#journey">Resources</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href="admin.html">Staff Admin</a>
+
+      <div class="nav-actions">
+        <button type="button" class="btn-login" onclick="openModal('login')">Log in</button>
+        <button type="button" class="btn-gold" onclick="openModal('join')">Join the Academy</button>
+      </div>
+
+      <button type="button" class="mobile-menu-btn" aria-label="Toggle Menu" onclick="toggleMobileMenu()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div id="mobileDrawer" class="mobile-drawer">
+      <a href="#home" onclick="toggleMobileMenu()">Home</a>
+      <a href="#about" onclick="toggleMobileMenu()">About</a>
+      <a href="#courses" onclick="toggleMobileMenu()">Courses</a>
+      <a href="#schedule" onclick="toggleMobileMenu()">Schedule</a>
+      <a href="#journey" onclick="toggleMobileMenu()">Resources</a>
+      <a href="#faq" onclick="toggleMobileMenu()">FAQ</a>
+      <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
+      <div style="display:flex; gap:10px; padding-top:8px;">
+        <button type="button" class="btn-dark" style="flex:1; justify-content:center;" onclick="toggleMobileMenu(); openModal('login')">Log in</button>
+        <button type="button" class="btn-gold" style="flex:1; justify-content:center;" onclick="toggleMobileMenu(); openModal('join')">Join the Academy</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-grid-bg"></div>
+
+    <svg class="hero-candlesticks" viewBox="0 0 700 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 350 Q 210 330, 360 250 T 680 120" stroke="#EAB308" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.45"/>
+      <g stroke="#334155" stroke-width="1.5">
+        <line x1="90" y1="260" x2="90" y2="365"/><rect x="82" y="290" width="16" height="45" fill="#111827"/>
+        <line x1="150" y1="230" x2="150" y2="340"/><rect x="142" y="255" width="16" height="50" fill="#1e293b"/>
+        <line x1="210" y1="205" x2="210" y2="310"/><rect x="202" y="230" width="16" height="42" fill="#111827"/>
+        <line x1="275" y1="175" x2="275" y2="285"/><rect x="267" y="195" width="16" height="55" fill="#1e293b"/>
+        <line x1="340" y1="150" x2="340" y2="255"/><rect x="332" y="170" width="16" height="48" fill="#111827"/>
+        <line x1="405" y1="125" x2="405" y2="230"/><rect x="397" y="140" width="16" height="52" fill="#1e293b"/>
+        <line x1="470" y1="95" x2="470" y2="200"/><rect x="462" y="112" width="16" height="46" fill="#111827"/>
+        <line x1="535" y1="75" x2="535" y2="175"/><rect x="527" y="92" width="16" height="40" fill="#1e293b"/>
+        <line x1="600" y1="55" x2="600" y2="155"/><rect x="592" y="70" width="16" height="44" fill="#111827"/>
+        <line x1="655" y1="40" x2="655" y2="135"/><rect x="647" y="55" width="16" height="38" fill="#1e293b"/>
+      </g>
+    </svg>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="eyebrow-pill">
+          <span class="eyebrow-dot"></span>
+          FOREX EDUCATION • ZIMBABWE
+        </div>
+
+        <h1>
+          Master the Markets.<br />
+          Trade with <span class="accent-gold">Knowledge.</span>
+        </h1>
+
+        <p class="lead">
+          NetherlandsFX provides structured forex education for beginners and developing traders — chart analysis, risk management and trading discipline, taught step by step.
+        </p>
+
+        <div class="hero-cta-row">
+          <button type="button" class="btn-gold" onclick="openModal('join')">
+            Join the Academy →
+          </button>
+          <a href="#courses" class="btn-dark">Explore Our Courses</a>
+          <a href="#contact" class="btn-ghost-link">Contact Us</a>
+        </div>
+
+        <div class="hero-metrics">
+          <div>
+            <div class="metric-label">COURSES</div>
+            <div class="metric-value">06</div>
+          </div>
+          <div>
+            <div class="metric-label">PATHWAY</div>
+            <div class="metric-value">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
+              </svg>
+              Beginner → Advanced
+            </div>
+          </div>
+          <div>
+            <div class="metric-label">FORMATS</div>
+            <div class="metric-value">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              In person & online
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About / The Academy -->
+  <section id="about" class="band">
+    <div class="container about-grid">
+      <div class="about-left">
+        <div class="section-tag">THE ACADEMY</div>
+        <h2 class="section-heading">
+          An academy for people who want to <span class="gold">understand</span> the market
+        </h2>
+        <p>
+          NetherlandsFX teaches forex trading as a discipline: how currencies are priced, how charts are read, how news moves price, and how risk is controlled before a position is opened. Lessons are delivered in person and online, supported by written notes, quizzes and a student portal — without signals — we teach the process, and you practise it on a demo account first.
+        </p>
+        <div class="about-actions">
+          <a href="#journey" class="btn-gold">Our approach →</a>
+          <a href="#schedule" class="btn-dark">See class dates</a>
+        </div>
+      </div>
+
+      <div class="feature-stack">
+        <div class="feature-row-card">
+          <div class="icon-box">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Built for beginners</h3>
+            <p>No jargon walls. We define every term, then show it on a chart you can read yourself.</p>
+          </div>
+        </div>
+
+        <div class="feature-row-card">
+          <div class="icon-box">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="2" width="16" height="20" rx="2"/><line x1="9" y1="6" x2="9" y2="10"/><line x1="15" y1="6" x2="15" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Rooted locally</h3>
+            <p>Physical classes in town, with local payment options and teaching paced for part-time study.</p>
+          </div>
+        </div>
+
+        <div class="feature-row-card">
+          <div class="icon-box">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Online when you need it</h3>
+            <p>Live online lessons, downloadable notes and a portal that tracks your progress course by course.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Courses -->
+  <section id="courses" class="band">
+    <div class="container">
+      <div class="section-header-row">
+        <div>
+          <div class="section-tag">FEATURED COURSES</div>
+          <h2 class="section-heading">Start where you are</h2>
+        </div>
+        <button type="button" class="btn-dark" onclick="openModal('join', 'All Courses Catalog')">
+          All courses ↗
+        </button>
+      </div>
+
+      <div class="courses-grid">
+        <article class="course-card">
+          <div>
+            <div class="course-top">
+              <span class="badge-level badge-beginner">BEGINNER</span>
+              <span class="course-price">$120</span>
+            </div>
+            <h3>Forex Trading for Beginners</h3>
+            <p class="course-desc">
+              Start from zero: how the forex market works, what currency pairs, pips, spreads, lot sizes and leverage actually mean.
+            </p>
+          </div>
+          <div>
+            <div class="course-meta">
+              <span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+                6 weeks · 2 evenings per week
+              </span>
+              <span>In person & online</span>
+            </div>
+            <button type="button" class="course-link" onclick="openModal('join', 'Forex Trading for Beginners ($120)')">
+              View course ↗
+            </button>
+            <p class="course-footnote">Fees shown are indicative. The academy confirms the final fee at enrolment.</p>
+          </div>
+        </article>
+
+        <article class="course-card">
+          <div>
+            <div class="course-top">
+              <span class="badge-level badge-intermediate">INTERMEDIATE</span>
+              <span class="course-price">$150</span>
+            </div>
+            <h3>Technical Analysis</h3>
+            <p class="course-desc">
+              Read raw price: candlestick anatomy, market structure, support and resistance, trendlines and chart patterns.
+            </p>
+          </div>
+          <div>
+            <div class="course-meta">
+              <span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+                8 weeks · 2 evenings per week
+              </span>
+              <span>In person & online</span>
+            </div>
+            <button type="button" class="course-link" onclick="openModal('join', 'Technical Analysis ($150)')">
+              View course ↗
+            </button>
+            <p class="course-footnote">Fees shown are indicative. The academy confirms the final fee at enrolment.</p>
+          </div>
+        </article>
+
+        <article class="course-card">
+          <div>
+            <div class="course-top">
+              <span class="badge-level badge-intermediate">INTERMEDIATE</span>
+              <span class="course-price">$100</span>
+            </div>
+            <h3>Risk Management</h3>
+            <p class="course-desc">
+              Position sizing, stop-loss discipline, risk-to-reward and drawdown control — the core of surviving the market.
+            </p>
+          </div>
+          <div>
+            <div class="course-meta">
+              <span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+                6 weeks · 2 evenings per week
+              </span>
+              <span>In person & online</span>
+            </div>
+            <button type="button" class="course-link" onclick="openModal('join', 'Risk Management ($100)')">
+              View course ↗
+            </button>
+            <p class="course-footnote">Fees shown are indicative. The academy confirms the final fee at enrolment.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Learn With Us -->
+  <section id="faq" class="band">
+    <div class="container">
+      <div class="why-header">
+        <div class="section-tag">WHY LEARN WITH US</div>
+        <h2 class="section-heading">
+          A teaching method built<br />
+          for <span class="gold">real market conditions</span>
+        </h2>
+        <p>
+          NetherlandsFX was created for traders who want to understand what they are doing — not to follow signals. Our approach is patient, analytical and rooted in risk control.
+        </p>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="icon-box">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>Risk management first</h3>
+          <p>Every course is built around protecting capital: position sizing, stop placement and drawdown control before profit targets.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="icon-box">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <h3>Charts, not opinions</h3>
+          <p>You learn to read market structure, candlesticks, support and resistance on real chart examples rather than memorising signals.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="icon-box">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+          </div>
+          <h3>Structured curriculum</h3>
+          <p>Modules and lessons build in a deliberate order, so each idea rests on the one before it instead of jumping between topics.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="icon-box">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3>Small-group teaching</h3>
+          <p>Classes are capped so there is room for questions, chart reviews and individual feedback on your trading journal.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="icon-box">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+            </svg>
+          </div>
+          <h3>Practice between classes</h3>
+          <p>Assignments, quizzes and demo-account exercises turn each lesson into a habit you can repeat on your own.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="icon-box">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="3" x2="12" y2="21"/><polyline points="8 7 12 3 16 7"/><path d="M5 14l-2 4h4l-2-4z"/><path d="M19 14l-2 4h4l-2-4z"/>
+            </svg>
+          </div>
+          <h3>Honest about the risk</h3>
+          <p>We never sell guaranteed returns. You will hear clearly that most retail traders struggle, and why discipline matters.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Learning Journey -->
+  <section id="journey" class="band">
+    <div class="container">
+      <div class="journey-top">
+        <div>
+          <div class="section-tag">LEARNING JOURNEY</div>
+          <h2 class="section-heading">
+            From first chart to<br />
+            a written strategy
+          </h2>
+        </div>
+        <p>
+          The pathway is deliberately sequential. Each stage is a course you can take in order, with assignments and quizzes that confirm you are ready for the next one.
+        </p>
+      </div>
+
+      <div class="journey-list">
+        <div class="journey-item">
+          <div class="step-num">01</div>
+          <div class="journey-main">
+            <h3>Foundations</h3>
+            <p>Currency pairs, pips, spreads, lot sizes and leverage. You learn how the market actually moves before risking anything.</p>
+          </div>
+          <div class="journey-track">FOREX TRADING FOR BEGINNERS</div>
+        </div>
+
+        <div class="journey-item">
+          <div class="step-num">02</div>
+          <div class="journey-main">
+            <h3>Reading the chart</h3>
+            <p>Candlestick patterns, market structure, support and resistance, trendlines and chart patterns on multiple timeframes.</p>
+          </div>
+          <div class="journey-track">TECHNICAL ANALYSIS</div>
+        </div>
+
+        <div class="journey-item">
+          <div class="step-num">03</div>
+          <div class="journey-main">
+            <h3>Understanding the driver</h3>
+            <p>Interest rates, inflation, employment data and central-bank decisions — how news becomes price movement.</p>
+          </div>
+          <div class="journey-track">FUNDAMENTAL ANALYSIS</div>
+        </div>
+
+        <div class="journey-item">
+          <div class="step-num">04</div>
+          <div class="journey-main">
+            <h3>Protecting capital</h3>
+            <p>Position sizing, stop-loss discipline, risk-to-reward, drawdown control and the psychology behind every decision.</p>
+          </div>
+          <div class="journey-track">RISK MANAGEMENT</div>
+        </div>
+
+        <div class="journey-item">
+          <div class="step-num">05</div>
+          <div class="journey-main">
+            <h3>Building your own process</h3>
+            <p>Multi-timeframe analysis, backtesting a written strategy, journalling trades and reviewing performance honestly.</p>
+          </div>
+          <div class="journey-track">ADVANCED TRADING STRATEGIES</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Classes & Workshops -->
+  <section id="schedule" class="band">
+    <div class="container">
+      <div class="section-header-row">
+        <div>
+          <div class="section-tag">UPCOMING</div>
+          <h2 class="section-heading">Classes & workshops</h2>
+        </div>
+        <button type="button" class="btn-dark" onclick="openModal('join', 'Full Class Schedule')">
+          Full schedule ↗
+        </button>
+      </div>
+
+      <div class="workshops-grid">
+        <article class="workshop-card">
+          <div>
+            <div class="workshop-top">
+              <span class="workshop-type">WORKSHOP</span>
+              <span class="seats-pill">15 seats left</span>
+            </div>
+            <h3>Gold (XAUUSD) risk workshop</h3>
+            <p class="workshop-date">Sat 21 Nov 2026 · 10:00</p>
+
+            <div class="workshop-meta">
+              <span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+                Venue to be confirmed — contact the academy
+              </span>
+              <span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                </svg>
+                15 places
+              </span>
+            </div>
+          </div>
+
+          <button type="button" class="btn-dark btn-full-dark" onclick="openModal('join', 'Gold (XAUUSD) risk workshop — Sat 21 Nov 2026')">
+            View & register
+          </button>
+        </article>
+
+        <article class="workshop-card">
+          <div>
+            <div class="workshop-top">
+              <span class="workshop-type">SEMINAR</span>
+              <span class="seats-pill">50 seats left</span>
+            </div>
+            <h3>Technical analysis open seminar</h3>
+            <p class="workshop-date">Sat 5 Dec 2026 · 09:30</p>
+
+            <div class="workshop-meta">
+              <span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+                Venue to be confirmed — contact the academy
+              </span>
+              <span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                </svg>
+                50 places
+              </span>
+            </div>
+          </div>
+
+          <button type="button" class="btn-dark btn-full-dark" onclick="openModal('join', 'Technical analysis open seminar — Sat 5 Dec 2026')">
+            View & register
+          </button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact" class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="#home" class="brand-link">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="20,2 36,11 36,29 20,38 4,29 4,11" stroke="#EAB308" stroke-width="1.6" fill="#0B1018"/>
+              <line x1="13" y1="13" x2="13" y2="27" stroke="#EAB308" stroke-width="1.4"/>
+              <rect x="10.5" y="16" width="5" height="7" rx="0.8" fill="#EAB308"/>
+              <line x1="20" y1="10" x2="20" y2="29" stroke="#EAB308" stroke-width="1.4"/>
+              <rect x="17.5" y="13" width="5" height="9" rx="0.8" fill="#0B1018" stroke="#EAB308" stroke-width="1.3"/>
+              <line x1="27" y1="14" x2="27" y2="26" stroke="#EAB308" stroke-width="1.4"/>
+              <rect x="24.5" y="17" width="5" height="6" rx="0.8" fill="#EAB308"/>
+            </svg>
+            <div class="brand-text">
+              <span class="brand-name">Netherlands<span class="fx">FX</span></span>
+              <span class="brand-sub">FOREX ACADEMY</span>
+            </div>
+          </a>
+          <p class="footer-brand-desc">
+            A forex education academy teaching market structure, chart analysis, risk management and trading discipline to beginners and developing traders.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>ACADEMY</h4>
+          <ul class="footer-links">
+            <li><a href="#about">About us</a></li>
+            <li><a href="#courses">Courses</a></li>
+            <li><a href="#schedule">Class schedule</a></li>
+            <li><a href="#journey">Resource centre</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>STUDENTS</h4>
+          <ul class="footer-links">
+            <li><button type="button" onclick="openModal('join')">Create an account</button></li>
+            <li><button type="button" onclick="openModal('login')">Student login</button></li>
+            <li><button type="button" onclick="openModal('login')">Student portal</button></li>
+            <li><button type="button" onclick="openModal('join')">Enrol in a course</button></li>
+            <li><a href="#risk-disclaimer">Risk disclaimer</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>CONTACT</h4>
+          <ul class="contact-list">
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>Harare — Zimbabwe</span>
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.81.37 1.6.73 2.34a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.74.36 1.53.61 2.34.73A2 2 0 0 1 22 16.92z"/>
+              </svg>
+              <span>+263 779 161 586</span>
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+              </svg>
+              <span>netherlandsfx@gmail.com</span>
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <span>Mon – Fri: 09:00 – 17:00 · Sat: 09:00 – 13:00</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="risk-disclaimer" class="disclaimer-box">
+        <strong>Risk disclaimer.</strong> Trading foreign exchange on margin carries a high level of risk and may not be suitable for every investor. Students can lose some or all of the capital they trade. Educational examples, backtests and historical price behaviour do not guarantee future results, and no NetherlandsFX course promises profits or financial success. Practise on a demo account before considering live trading. All trading decisions remain the responsibility of the individual. NetherlandsFX is an education provider and does not manage funds, give personalised investment advice, or execute trades on behalf of students.
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 NetherlandsFX. All rights reserved.</span>
+        <span>Contact details, fees and classes are managed by the academy and may be updated at any time.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Enrollment / Student Login Modal -->
+  <div id="portalModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Join NetherlandsFX Academy</h3>
+        <button type="button" class="modal-close" aria-label="Close modal" onclick="closeModal()">×</button>
+      </div>
+
+      <form id="portalForm" onsubmit="handleFormSubmit(event)">
+        <div id="nameField" class="form-group">
+          <label for="studentName">Full Name</label>
+          <input id="studentName" type="text" placeholder="Enter your full name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="studentEmail">Email Address</label>
+          <input id="studentEmail" type="email" placeholder="you@example.com" required />
+        </div>
+
+        <div id="courseField" class="form-group">
+          <label for="courseSelect">Course / Session</label>
+          <select id="courseSelect">
+            <option value="Forex Trading for Beginners ($120)">Forex Trading for Beginners ($120)</option>
+            <option value="Technical Analysis ($150)">Technical Analysis ($150)</option>
+            <option value="Risk Management ($100)">Risk Management ($100)</option>
+            <option value="Gold (XAUUSD) risk workshop — Sat 21 Nov 2026">Gold (XAUUSD) risk workshop — Sat 21 Nov 2026</option>
+            <option value="Technical analysis open seminar — Sat 5 Dec 2026">Technical analysis open seminar — Sat 5 Dec 2026</option>
+          </select>
+        </div>
+
+        <button id="modalSubmitBtn" type="submit" class="btn-gold btn-full-dark">Submit Application</button>
+
+        <div id="toastMsg" class="toast-msg"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function toggleMobileMenu() {
+      document.getElementById('mobileDrawer').classList.toggle('open');
+    }
+
+    function openModal(mode, preselectedOption) {
+      const modal = document.getElementById('portalModal');
+      const title = document.getElementById('modalTitle');
+      const nameField = document.getElementById('nameField');
+      const courseField = document.getElementById('courseField');
+      const courseSelect = document.getElementById('courseSelect');
+      const submitBtn = document.getElementById('modalSubmitBtn');
+      const toast = document.getElementById('toastMsg');
+
+      toast.style.display = 'none';
+      toast.textContent = '';
+
+      if (mode === 'login') {
+        title.textContent = 'Student Portal Login';
+        nameField.style.display = 'none';
+        courseField.style.display = 'none';
+        document.getElementById('studentName').required = false;
+        submitBtn.textContent = 'Sign In to Portal';
+      } else {
+        title.textContent = 'Join NetherlandsFX Academy';
+        nameField.style.display = 'block';
+        courseField.style.display = 'block';
+        document.getElementById('studentName').required = true;
+        submitBtn.textContent = 'Submit Enrolment Request';
+
+        if (preselectedOption) {
+          const exists = Array.from(courseSelect.options).some(opt => opt.value === preselectedOption);
+          if (exists) {
+            courseSelect.value = preselectedOption;
+          }
+        }
+      }
+
+      modal.classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('portalModal').classList.remove('open');
+    }
+
+    document.getElementById('portalModal').addEventListener('click', function (e) {
+      if (e.target === this) closeModal();
+    });
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('studentEmail').value.trim();
+      const selected = document.getElementById('courseSelect').value;
+      const isLogin = document.getElementById('nameField').style.display === 'none';
+      const toast = document.getElementById('toastMsg');
+
+      toast.style.display = 'block';
+      toast.textContent = isLogin
+        ? `Portal link sent to ${email}.`
+        : `Enrolment request noted for ${email} (${selected}). Final fee & venue details are confirmed upon registration.`;
+    }
+  </script>
+</body>
+</html>
